@@ -1,10 +1,6 @@
 #ifndef MUSICMODEL_H
 #define MUSICMODEL_H
-#include <QAbstractListModel>
-#include <QString>
-#include <QDate>
-#include <vector>
-#include <QMessageBox>
+#include "includeheaders.h"
 using namespace std;
 
 class Music
@@ -23,6 +19,7 @@ public:
     QString getFileName() const;
     QString getPath() const;
     QString getFormat() const;
+
 };
 
 class MusicModel : public QAbstractListModel
@@ -40,6 +37,8 @@ public:
 
     bool RemoveSelected(int Id);
 
+
+    vector<Music *> getMusic() const;
 
 private:
     vector<Music*> music;

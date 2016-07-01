@@ -7,21 +7,27 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+CONFIG += console
+LIBS += advapi32.lib
 TARGET = Easy_Music_Burner
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    burndialog.cpp \
-    musicmodel.cpp
+    musicmodel.cpp \
+    filemanager.cpp \
+    burnmanager.cpp \
+    burnisodialog.cpp
 
 HEADERS  += mainwindow.h \
-    burndialog.h \
-    musicmodel.h
+    musicmodel.h \
+    filemanager.h \
+    includeheaders.h \
+    burnmanager.h \
+    burnisodialog.h
 
 FORMS    += mainwindow.ui \
-    burndialog.ui
+    burnisodialog.ui
 
 RESOURCES +=

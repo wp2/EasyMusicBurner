@@ -76,6 +76,32 @@
      <string>Utwórz ISO</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>250</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ProgressBusy</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="WriterDetect">
+    <property name="geometry">
+     <rect>
+      <x>304</x>
+      <y>250</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Detect Writerts</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -90,22 +116,25 @@
     <property name="title">
      <string>Plik</string>
     </property>
-    <addaction name="actionUstawienia"/>
+    <addaction name="BurnISO"/>
+    <addaction name="EraseDisc"/>
+    <addaction name="Close"/>
    </widget>
    <addaction name="menuPlik"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionUstawienia">
+  <action name="BurnISO">
    <property name="text">
-    <string>Ustawienia</string>
+    <string>Wypal Plik ISO</string>
+   </property>
+  </action>
+  <action name="EraseDisc">
+   <property name="text">
+    <string>Kasuj Dysk</string>
+   </property>
+  </action>
+  <action name="Close">
+   <property name="text">
+    <string>Zamknij</string>
    </property>
   </action>
  </widget>

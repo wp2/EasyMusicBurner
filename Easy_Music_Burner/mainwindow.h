@@ -1,10 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QMainWindow>
 #include "musicmodel.h"
-#include <QFileDialog>
-#include <QMessageBox>
+#include "filemanager.h"
+#include "includeheaders.h"
+#include "burnisodialog.h"
+#include "burnmanager.h"
 namespace Ui {
 class MainWindow;
 }
@@ -26,12 +26,18 @@ private slots:
 
     void OnSettings();
 
+    void on_pushButton_clicked();
+
+
+
+    void on_WriterDetect_clicked();
+
 private:
     Ui::MainWindow *ui;
     MusicModel *MusicListModel;
     void SetListView();
     void DebugMsgBox(QString text);
-
+    void InfoMsgBox(QString info);
 
 };
 

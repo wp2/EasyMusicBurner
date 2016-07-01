@@ -6,9 +6,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(this->ui->actionUstawienia,SIGNAL(triggered(bool)),this,SLOT(OnSettings()));
+    connect(this->ui->BurnISO,SIGNAL(triggered(bool)),this,SLOT(OnSettings()));
     SetListView();
     this->show();
+
 }
 
 MainWindow::~MainWindow()
@@ -60,13 +61,40 @@ void MainWindow::DebugMsgBox(QString text)
     deb.exec();
 }
 
+void MainWindow::InfoMsgBox(QString message)
+{
+    QMessageBox info;
+    info.setText(message);
+    info.exec();
+}
 
 
 void MainWindow::on_Create_ISO_clicked()
 {
-    #ifdef WIN64
+    #ifdef _WIN32
+        if(this->ui->MusicFiles->selectionModel()->selectedIndexes().count() != 0)
+        {
+           // InfoMsgBox("Nie wybrałeś plików!");
+           // return;
+        }
+        else
+        {
+           /* QDialog StatusDial;
+            QLayout *layout = new QVBoxLayout(&StatusDial);
+            QProgressBar *prog = new QProgressBar();
+            prog->setMinimum(0);
+            prog->setMaximum(0);
+            layout->addWidget(prog);
+            if(StatusDial.exec())
+            {
+                FileManager man("C:\Users\Wojtek\Documents\EMBTest",this->MusicListModel->getMusic());
+                if(man.CreateISO()) StatusDial.close();
+            }*/
+            FileManager man("C:/Users/Wojtek/Documents/EMBTest",this->MusicListModel->getMusic());
+            man.CreateISO();
 
-   // system("")
+        }
+
     #elif __linux__
 
     #endif
@@ -75,6 +103,25 @@ void MainWindow::on_Create_ISO_clicked()
 
 void MainWindow::OnSettings()
 {
-    DebugMsgBox("Ustawienia");
+    BurnIsoDialog IsoDialog;
 
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    // Test of progress bar
+    QDialog StatusDial;
+    QLayout *layout = new QVBoxLayout(&StatusDial);
+    QProgressBar *prog = new QProgressBar();
+    prog->setMinimum(0);
+    prog->setMaximum(0);
+    layout->addWidget(prog);
+    StatusDial.exec();
+}
+
+void MainWindow::on_WriterDetect_clicked()
+{
+    BurnManager Bman;
+    Bman.GetDiscWriters();
 }

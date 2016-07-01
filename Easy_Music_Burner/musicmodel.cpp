@@ -16,6 +16,7 @@ QString Music::getFormat() const
     return Format;
 }
 
+
 Music::Music(QString FileName, QString Path)
 {
     this->FileName = FileName;
@@ -66,6 +67,11 @@ bool MusicModel::RemoveSelected(int Id)
     music.erase(music.begin() + Id);
     endRemoveRows();
     return true;
+}
+
+vector<Music *> MusicModel::getMusic() const
+{
+    return music;
 }
 
 
