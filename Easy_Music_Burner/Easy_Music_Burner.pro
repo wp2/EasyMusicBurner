@@ -18,16 +18,19 @@ SOURCES += main.cpp\
     musicmodel.cpp \
     filemanager.cpp \
     burnmanager.cpp \
-    burnisodialog.cpp
+    burnisodialog.cpp \
+    erasediscdialog.cpp
 
 HEADERS  += mainwindow.h \
     musicmodel.h \
     filemanager.h \
     includeheaders.h \
     burnmanager.h \
-    burnisodialog.h
+    burnisodialog.h \
+    erasediscdialog.h
 
 FORMS    += mainwindow.ui \
-    burnisodialog.ui
+    burnisodialog.ui \
+    erasediscdialog.ui
 
 RESOURCES +=

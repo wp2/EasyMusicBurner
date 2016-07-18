@@ -6,13 +6,21 @@ BurnManager::BurnManager()
 
 }
 
-void BurnManager::GetDiscWriters()
+BurnManager::BurnManager(WriterDevice dev, BurnInfo Binfo)
 {
-    CdWriters.clear();
+    this->BurnOptInfo = &Binfo;
+    Binfo.Destanation = dev;
+
+}
+
+vector<WriterDevice *> BurnManager::GetDiscWriters()
+{
+    QString SProgramPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
+    vector<WriterDevice*> Writers;
     QProcess *Cdrecord = new QProcess();
     QStringList ProgArgs;
     ProgArgs<<"-scanbus";
-    Cdrecord->start(this->ProgramPath,ProgArgs);
+    Cdrecord->start(SProgramPath,ProgArgs);
     if(Cdrecord->waitForStarted(-1))
     {
 
@@ -23,7 +31,7 @@ void BurnManager::GetDiscWriters()
         qInfo("Cdrecord Failed to check writers");
     }
     if(Cdrecord->waitForFinished(-1))
-    {        
+    {
         string Output = Cdrecord->readAllStandardOutput().constData();
         smatch wynik;
         regex SCSIDevices("[0-9],[0-9],[0-9]\\s*[0-9]\\)\\s*.{4,}"); // This will return CD Writing Devices
@@ -32,7 +40,7 @@ void BurnManager::GetDiscWriters()
         for(int i=0;i<wynik.size();i++)
         {
             string dev = wynik.str(i);
-            dev.erase(5,string::npos);
+
             const char *DevB = new char(dev[0]); // Writer Key DEV=B,T,L
             const char *DevT = new char(dev[2]);
             const char *DevL = new char(dev[4]);
@@ -41,12 +49,12 @@ void BurnManager::GetDiscWriters()
             t = atoi(DevT);
             l = atoi(DevL);
 
-            CdWriters.push_back(new WriterDevice( b,t,l )); // Add all detected writers to vector
+            this->CdWriters.push_back(new WriterDevice( b,t,l,"ATAPI","IDTEST","TST" )); // Add all detected writers to vector
             //cout<<"Result["<<i<<"]"<<endl;    // Debug Info
             //cout<<wynik[i]<<endl;
             //cout<<endl;
         }
-
+        return Writers;
 
     }
     else
@@ -56,16 +64,41 @@ void BurnManager::GetDiscWriters()
 
 }
 
-BurnManager::WriterDevice::WriterDevice(int B, int T, int L)
+bool BurnManager::Burn()
+{
+    if(BurnOptInfo != NULL)
+    {
+
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+WriterDevice::WriterDevice(int B, int T, int L)
 {
     this->B = B;
     this->L = L;
     this->T = T;
+
 }
 
-QString BurnManager::WriterDevice::toQString()
+WriterDevice::WriterDevice(int B,int T,int L,QString Vendor,QString Id,QString Revision)
+{
+    this->B = B;
+    this->L = L;
+    this->T = T;
+    this->VendorInfo = Vendor;
+    this->Id = Id;
+    this->Revision = Revision;
+}
+
+QString WriterDevice::toQString()
 {
     QString Key;
-    Key.append(QString::number(this->B)).append(",").append(QString::number(this->T)).append(",").append(QString::number(this->L));
+    Key.append("DEV = (").append(QString::number(this->B)).append(",").append(QString::number(this->T)).append(",").append(QString::number(this->L))
+            .append(") ").append(this->VendorInfo).append(" ").append(this->Id);
     return Key;
 }

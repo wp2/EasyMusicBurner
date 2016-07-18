@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>734</width>
-    <height>342</height>
+    <width>742</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Easy Music Burner</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QListView" name="MusicFiles">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>701</width>
+      <y>80</y>
+      <width>671</width>
       <height>211</height>
      </rect>
     </property>
@@ -28,7 +28,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
+      <y>60</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -40,8 +40,8 @@
    <widget class="QPushButton" name="ADD">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>250</y>
+      <x>610</x>
+      <y>330</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QPushButton" name="DEL">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>250</y>
+      <x>530</x>
+      <y>330</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -66,8 +66,8 @@
    <widget class="QPushButton" name="Create_ISO">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>250</y>
+      <x>450</x>
+      <y>330</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -76,24 +76,14 @@
      <string>Utwórz ISO</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>250</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ProgressBusy</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="WriterDetect">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>304</x>
-      <y>250</y>
+      <x>270</x>
+      <y>330</y>
       <width>91</width>
       <height>23</height>
      </rect>
@@ -102,13 +92,169 @@
      <string>Detect Writerts</string>
     </property>
    </widget>
+   <widget class="QProgressBar" name="MemoryProgressBar">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>300</y>
+      <width>631</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="textVisible">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MemoryUsageLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>300</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Użycie Pamięci</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>47</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Typ Płyty</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="DiscType">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>20</y>
+      <width>111</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>20</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rodzaj Wypalania</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="BurnMode">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>20</y>
+      <width>131</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>330</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wypal</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Music_UP">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>120</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>UP</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Music_Down">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>180</y>
+      <width>41</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DOWN</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MemUsed">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>337</y>
+      <width>16</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="JustSlash">
+    <property name="geometry">
+     <rect>
+      <x>66</x>
+      <y>340</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>/</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="MaxMemAllowed">
+    <property name="geometry">
+     <rect>
+      <x>86</x>
+      <y>337</y>
+      <width>51</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>700</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>734</width>
+     <width>742</width>
      <height>21</height>
     </rect>
    </property>
@@ -120,7 +266,14 @@
     <addaction name="EraseDisc"/>
     <addaction name="Close"/>
    </widget>
+   <widget class="QMenu" name="menuPomoc">
+    <property name="title">
+     <string>Pomoc</string>
+    </property>
+    <addaction name="actionO_Programie"/>
+   </widget>
    <addaction name="menuPlik"/>
+   <addaction name="menuPomoc"/>
   </widget>
   <action name="BurnISO">
    <property name="text">
@@ -135,6 +288,11 @@
   <action name="Close">
    <property name="text">
     <string>Zamknij</string>
+   </property>
+  </action>
+  <action name="actionO_Programie">
+   <property name="text">
+    <string>O Programie</string>
    </property>
   </action>
  </widget>

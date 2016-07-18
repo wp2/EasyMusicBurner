@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EraseDiscDialog</class>
+ <widget class="QDialog" name="EraseDiscDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>534</width>
+    <height>164</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QComboBox" name="DriveSelect">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>40</y>
+     <width>391</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="DriveLabel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>47</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Napęd</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="EraseStatus">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>501</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="Erase">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>491</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kasuj</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

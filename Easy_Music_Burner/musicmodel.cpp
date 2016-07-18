@@ -17,6 +17,11 @@ QString Music::getFormat() const
 }
 
 
+int Music::getFileSize() const
+{
+    return FileSize;
+}
+
 Music::Music(QString FileName, QString Path)
 {
     this->FileName = FileName;
@@ -24,13 +29,14 @@ Music::Music(QString FileName, QString Path)
 
 }
 
-Music::Music(QString FileName, QString Path, QDate Created, QDate LastModified,QString Format)
+Music::Music(QString FileName, QString Path, QDate Created, QDate LastModified,QString Format,int FileSize)
 {
     this->FileName = FileName;
     this->Path = Path;
     this->Created = Created;
     this->LastModified = LastModified;
     this->Format = Format;
+    this->FileSize = FileSize;
 }
 
 int MusicModel::rowCount(const QModelIndex &parent) const
@@ -72,6 +78,12 @@ bool MusicModel::RemoveSelected(int Id)
 vector<Music *> MusicModel::getMusic() const
 {
     return music;
+}
+
+void MusicModel::SetMusicAtPos(Music *tmp, int Pos)
+{
+    if(Pos > this->music.size())return;
+    this->music[Pos] = tmp;
 }
 
 

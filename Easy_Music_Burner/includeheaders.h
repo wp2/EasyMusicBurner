@@ -18,6 +18,7 @@
 #include <QAbstractListModel>
 #include <regex>
 #include <cstdlib>
+#include <map>
 #ifdef _WIN32
 #include <Windows.h>
 #endif

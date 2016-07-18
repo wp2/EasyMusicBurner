@@ -11,15 +11,17 @@ class Music
     QDate Created;
     QDate LastModified;
     QString Format;
+    int FileSize;
 public:
     Music(QString FileName,QString Path);
-    Music(QString FileName, QString Path,QDate Created,QDate LastModified,QString Format);
+    Music(QString FileName, QString Path,QDate Created,QDate LastModified,QString Format,int FileSize);
 
 public:
     QString getFileName() const;
     QString getPath() const;
     QString getFormat() const;
 
+    int getFileSize() const;
 };
 
 class MusicModel : public QAbstractListModel
@@ -39,6 +41,8 @@ public:
 
 
     vector<Music *> getMusic() const;
+
+    void SetMusicAtPos(Music *tmp,int Pos);
 
 private:
     vector<Music*> music;
