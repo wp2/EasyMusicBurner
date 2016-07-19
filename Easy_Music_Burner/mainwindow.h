@@ -25,9 +25,7 @@ private slots:
 
     void on_Create_ISO_clicked();
 
-    void OnSettings();
-
-    void on_WriterDetect_clicked();
+    void OnSettings();    
 
     void on_Music_Down_clicked();
 

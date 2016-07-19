@@ -7,7 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-CONFIG += console
+#CONFIG += console  # FOR DEBUG AND DEV ONLY
 LIBS += advapi32.lib
 TARGET = Easy_Music_Burner
 TEMPLATE = app

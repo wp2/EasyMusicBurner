@@ -19,6 +19,7 @@ public:
     WriterDevice(int B,int T,int L,QString Vendor,QString Id,QString Revision);
     WriterDevice(){};
     QString toQString();
+    QString toStringDevKey();
 
 };
 
@@ -34,14 +35,17 @@ struct BurnInfo
 
 class BurnManager
 {
+
     QString ProgramPath;
 public:
     vector<WriterDevice*> CdWriters;    
     BurnInfo *BurnOptInfo;
     BurnManager();
     BurnManager(WriterDevice dev,BurnInfo Binfo);
-    vector<WriterDevice *> GetDiscWriters();
-    static bool BlankDisc(int B,int T,int L);
+    void GetDiscWriters();
+    bool BlankDisc(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL); // By default use Binfo.Destanation
+    bool IsErasable(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL);
+    bool IsWriteable(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL);
 
     bool Burn();
 

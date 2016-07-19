@@ -1,6 +1,7 @@
 #ifndef INCLUDEHEADERS_H
 #define INCLUDEHEADERS_H
 
+#include <QPlainTextEdit>
 #include <QDialog>
 #include <QProcess>
 #include <QDir>
@@ -16,6 +17,7 @@
 #include <QTemporaryDir>
 #include <QCoreApplication>
 #include <QAbstractListModel>
+#include <QThread>
 #include <regex>
 #include <cstdlib>
 #include <map>

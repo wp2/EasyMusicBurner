@@ -139,17 +139,23 @@ bool MainWindow::SetMaxMemoryAllowed(int MemoryMb)
 void MainWindow::on_Create_ISO_clicked()
 {
     #ifdef _WIN32
-        if(this->ui->MusicFiles->selectionModel()->selectedIndexes().count() != 0)
+        if(this->ui->MusicFiles->selectionModel()->selectedIndexes().count() != 0 || this->MusicListModel->getMusic().size() > 0)
         {
             FileManager Fman("DDD",this->MusicListModel->getMusic());
             Fman.CreateISO();
+            QMessageBox OKmsg;
+            OKmsg.setToolTip(QString::fromStdString("Komunikat"));
+            OKmsg.setText(QString::fromStdString("Wygenerowano plik iso do Moje Dokumenty"));
+            OKmsg.exec();
 
 
         }
         else
         {
-
-
+            QMessageBox Errmsg;
+            Errmsg.setToolTip(QString::fromStdString("Komunikat"));
+            Errmsg.setText(QString::fromStdString("Nie wybrano plików muzycznych operacja przerwana!"));
+            Errmsg.exec();
         }
 
     #elif __linux__
@@ -161,13 +167,6 @@ void MainWindow::on_Create_ISO_clicked()
 void MainWindow::OnSettings()
 {
     BurnIsoDialog IsoDialog;
-}
-
-
-void MainWindow::on_WriterDetect_clicked()
-{
-    BurnManager Bman;
-    Bman.GetDiscWriters();
 }
 
 void MainWindow::on_Music_Down_clicked()

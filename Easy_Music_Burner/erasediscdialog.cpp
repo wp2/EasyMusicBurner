@@ -6,12 +6,13 @@ EraseDiscDialog::EraseDiscDialog(QWidget *parent) :
     ui(new Ui::EraseDiscDialog)
 {
     ui->setupUi(this);    
-    this->ui->EraseStatus->setValue(0);
+
     this->BurnCmd = new BurnManager();
     this->BurnCmd->GetDiscWriters();
     for(int i = 0 ; i<this->BurnCmd->CdWriters.size();i++)
     {
-        this->ui->DriveSelect->insertItem(0,this->BurnCmd->CdWriters.at(i)->toQString());
+        QVariant v = qVariantFromValue((void*)this->BurnCmd->CdWriters.at(i));
+        this->ui->DriveSelect->insertItem(0,this->BurnCmd->CdWriters.at(i)->toQString(),v);
     }
     this->exec();
 }
@@ -23,8 +24,14 @@ EraseDiscDialog::~EraseDiscDialog()
 
 void EraseDiscDialog::on_Erase_clicked()
 {
-    this->ui->EraseStatus->setMinimum(0);
-    this->ui->EraseStatus->setMaximum(0);
+
     //this->BurnCmd->BlankDisc()
-    this->accept();
+    WriterDevice *Drive = (WriterDevice*)this->ui->DriveSelect->currentData().value<void*>();
+    this->BurnCmd->BlankDisc(Drive,this->ui->plainTextEdit);
+    //this->accept();
+}
+
+void EraseDiscDialog::OnProgramOutput(QString Log)
+{
+
 }

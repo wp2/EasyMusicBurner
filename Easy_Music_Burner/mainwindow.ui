@@ -76,22 +76,6 @@
      <string>Utwórz ISO</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="WriterDetect">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>330</y>
-      <width>91</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Detect Writerts</string>
-    </property>
-   </widget>
    <widget class="QProgressBar" name="MemoryProgressBar">
     <property name="geometry">
      <rect>
@@ -212,10 +196,10 @@
    <widget class="QLabel" name="MemUsed">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>337</y>
-      <width>16</width>
-      <height>20</height>
+      <x>10</x>
+      <y>310</y>
+      <width>20</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -225,8 +209,8 @@
    <widget class="QLabel" name="JustSlash">
     <property name="geometry">
      <rect>
-      <x>66</x>
-      <y>340</y>
+      <x>30</x>
+      <y>320</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -238,9 +222,9 @@
    <widget class="QLabel" name="MaxMemAllowed">
     <property name="geometry">
      <rect>
-      <x>86</x>
-      <y>337</y>
-      <width>51</width>
+      <x>40</x>
+      <y>320</y>
+      <width>31</width>
       <height>16</height>
      </rect>
     </property>
@@ -276,6 +260,9 @@
    <addaction name="menuPomoc"/>
   </widget>
   <action name="BurnISO">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Wypal Plik ISO</string>
    </property>

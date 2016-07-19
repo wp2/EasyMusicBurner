@@ -18,10 +18,10 @@ public:
 
 private slots:
     void on_Erase_clicked();
-
+    void OnProgramOutput(QString Log);
 private:
     Ui::EraseDiscDialog *ui;
-
+    QThread Communicator; // Test of communicating between Status -> BurnerManager Methods
 };
 
 #endif // ERASEDISCDIALOG_H
