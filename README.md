@@ -7,4 +7,8 @@ Be aware that program is still in alpha version. Because of that only some funct
   + Creating Iso from ordered list of music files (mp3)
   + Erasing Disc (CD-RW, DVD-RW)
   
+Requirements: 
+  + Visual Studio 2015 Redistributable x64  
+
+  
 
