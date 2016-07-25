@@ -2,9 +2,22 @@
 
 
 
+
+
+
+QFileInfo* FileManager::getGeneratedIso() const
+{
+    return GeneratedIso;
+}
+
+void FileManager::setGeneratedIso(QFileInfo *value)
+{
+    GeneratedIso = value;
+}
+
 FileManager::FileManager(QString Output)
 {
-    #ifdef _WIN32
+#ifdef _WIN32
     // Get UserName under windows
     wchar_t username[256 + 1];
     DWORD size = 256 + 1;
@@ -65,11 +78,14 @@ FileManager::FileManager(QString Output, vector<Music *> files)
     this->MusicFiles = files;
 }
 
+
+
 FileManager::~FileManager()
 {
     Tmp->removeRecursively(); // Delete Temp
     delete Tmp; // delete Tmp on Heap
     MusicFiles.clear(); // Clear Music Vector
+    if(this->GeneratedIso != NULL)delete this->GeneratedIso;
 }
 
 void FileManager::SetMusicFiles(vector<Music *> files)
@@ -93,9 +109,14 @@ bool FileManager::CreateISO()
         Param1.append(this->ISOTargetDIR);
 
         QStringList Params;
-        Params<<"-J"<<Param1<<this->OutDIR;
-        RunMKISOFSProgram(Params);
-        return true;
+        Params<<"-J"<<Param1<<this->OutDIR;        
+        if(RunMKISOFSProgram(Params))
+        {
+            this->GeneratedIso = new QFileInfo(this->ISOTargetDIR);
+            return true;
+        }
+        return false;
+
     }
     else
     {
@@ -103,6 +124,8 @@ bool FileManager::CreateISO()
         return false;
     }
 }
+
+
 
 bool FileManager::RunMKISOFSProgram(QStringList Args)
 {
@@ -137,6 +160,7 @@ bool FileManager::RunMKISOFSProgram(QStringList Args)
         qInfo("OK!");
         qInfo(output.c_str());
         qInfo(output2.c_str());
+        this->GeneratedIso = new QFileInfo(Args[1]);
         return true;
     }
     else

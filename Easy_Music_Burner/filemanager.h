@@ -2,7 +2,7 @@
 #define FILEMANAGER_H
 #include"musicmodel.h"
 #include "includeheaders.h"
-#include "mainwindow.h"
+
 class FileManager
 {
 
@@ -12,9 +12,11 @@ class FileManager
     vector<Music*> MusicFiles;
     QDir *Tmp;
     string UserName;
+    QFileInfo *GeneratedIso;
 public:
     FileManager(QString Output);
     FileManager(QString Output,vector<Music*>files);
+
     ~FileManager();
 
     void PopulateDIR();
@@ -26,6 +28,8 @@ public:
     vector<Music*> SetMusicFileOrder();
     bool CreateISO();
 
+    QFileInfo* getGeneratedIso() const;
+    void setGeneratedIso(QFileInfo *value);
 };
 
 #endif // FILEMANAGER_H

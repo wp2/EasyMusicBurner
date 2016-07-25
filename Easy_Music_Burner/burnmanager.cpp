@@ -2,24 +2,40 @@
 
 BurnManager::BurnManager()
 {
-    ProgramPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
+    CdRecordPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
 
 }
 
 BurnManager::BurnManager(WriterDevice dev, BurnInfo Binfo)
 {
+    CdRecordPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
     this->BurnOptInfo = &Binfo;
-    Binfo.Destanation = dev;
+    Binfo.Destanation = &dev;
+
+}
+
+BurnManager::BurnManager(WriterDevice dev, BurnInfo Binfo, FileManager *FileCmd)
+{
+    CdRecordPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
+    this->BurnOptInfo = &Binfo;
+    Binfo.Destanation = &dev;
+    this->FileCmd = FileCmd;
+
+}
+
+BurnManager::~BurnManager()
+{
+    if(this->BurnOptInfo !=NULL)delete this->BurnOptInfo;
 
 }
 
 void BurnManager::GetDiscWriters()
 {
-    QString SProgramPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");   
+
     QProcess *Cdrecord = new QProcess();
     QStringList ProgArgs;
     ProgArgs<<"-scanbus";
-    Cdrecord->start(SProgramPath,ProgArgs);
+    Cdrecord->start(this->CdRecordPath,ProgArgs);
     if(Cdrecord->waitForStarted(-1))
     {
 
@@ -35,8 +51,7 @@ void BurnManager::GetDiscWriters()
         smatch wynik;
         regex SCSIDevices("[0-9],[0-9],[0-9]\\s*[0-9]\\)\\s*.{4,}"); // This will return CD Writing Devices
         regex AdditionalInfo("'([^']*)' '([^']*)' '([^']*)'");
-        regex_search(Output,wynik,SCSIDevices);
-       // qInfo(Output.c_str());
+        regex_search(Output,wynik,SCSIDevices);       
         for(int i=0;i<wynik.size();i++)
         {
             string dev = wynik.str(i);
@@ -50,21 +65,22 @@ void BurnManager::GetDiscWriters()
             l = atoi(DevL);
             smatch InfoResult;
             regex_search(dev,InfoResult,AdditionalInfo,regex_constants::match_any);
-            cout<<"0 -> "<<InfoResult[0]<<endl;
+           /* cout<<"0 -> "<<InfoResult[0]<<endl;
             cout<<"1 -> "<<InfoResult[1]<<endl;
             cout<<"2 -> "<<InfoResult[2]<<endl;
             cout<<"3 -> "<<InfoResult[3]<<endl;
-            cout<<"4 -> "<<InfoResult[4]<<endl;
+            cout<<"4 -> "<<InfoResult[4]<<endl;*/
             this->CdWriters.push_back(new WriterDevice( b,t,l,QString::fromStdString(InfoResult[1]),
                                       QString::fromStdString(InfoResult[2]),QString::fromStdString(InfoResult[3]) )); // Add all detected writers to vector
 
         }
-
+        this->GetWriterMaxIOSpeed();
+        delete Cdrecord;
 
     }
     else
     {
-        exit(1);
+        return;
     }
 
 }
@@ -94,6 +110,7 @@ bool BurnManager::BlankDisc(WriterDevice *dev,QPlainTextEdit *LogOutput)
     if(Cdrecord->waitForFinished(-1))
     {
 
+
         string Output = Cdrecord->readAllStandardOutput().constData();
         if(LogOutput != NULL)
         {
@@ -119,17 +136,17 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
     if(dev == NULL)
     {
         if(&this->BurnOptInfo->Destanation == NULL || this->BurnOptInfo == NULL) return false; // If that happen something is really wrong !
-        dev = &this->BurnOptInfo->Destanation; // Fallback to BurnInfo->Destanation
+        dev = this->BurnOptInfo->Destanation; // Fallback to BurnInfo->Destanation
     }
 
-    QString SProgramPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
+
     vector<WriterDevice*> Writers;
     QProcess *Cdrecord = new QProcess();
 
     QStringList ProgArgs;
     ProgArgs<<"-media-info";
     ProgArgs<<dev->toStringDevKey();
-    Cdrecord->start(SProgramPath,ProgArgs);
+    Cdrecord->start(this->CdRecordPath,ProgArgs);
     if(Cdrecord->waitForStarted(-1))
     {
 
@@ -153,7 +170,7 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
         }
         smatch StandardOutputRes;
         smatch ErrOutputRes;
-        regex Disk("cdrecord: No disk"); // This will check if CD is present
+        regex Disk("(cdrecord: No disk)"); // This will check if CD is present
         regex_search(Output,StandardOutputRes,Disk);
         regex_search(ErrOutput,ErrOutputRes,Disk);
         if(StandardOutputRes.size() == 1 || ErrOutputRes.size() == 1 )
@@ -195,15 +212,106 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
 
 }
 
+void BurnManager::ConstructBurnInfo(int DiscType, int BurnType, int WriteSpeed, WriterDevice *Drive, bool SAO, bool TAO,QFileInfo Data)
+{
+    this->BurnOptInfo = new BurnInfo();
+    this->BurnOptInfo->DiscType = DiscType;
+    this->BurnOptInfo->BurnType = BurnType;
+    this->BurnOptInfo->WriteSpeed = WriteSpeed;
+    this->BurnOptInfo->Destanation = Drive;
+    this->BurnOptInfo->Sao = SAO;
+    this->BurnOptInfo->Tao = TAO;
+    this->BurnOptInfo->Data = Data;
+
+}
+
 bool BurnManager::Burn()
 {
     if(BurnOptInfo != NULL)
     {
+        switch(BurnOptInfo->BurnType)
+        {
+
+        case MP3:
+        {
+            QProcess Burner;
+            QStringList BurnArgs;
+            BurnArgs<<BurnOptInfo->Destanation->toStringDevKey();
+            BurnArgs<<QString("speed=").append(QString::number(BurnOptInfo->WriteSpeed));
+            BurnArgs<<this->BurnOptInfo->Data.absoluteFilePath();
+            Burner.start(this->CdRecordPath,BurnArgs);
+            if(Burner.waitForStarted(-1)){}
+            else{qInfo("ERR Burn Start");}
+            if(Burner.waitForFinished(-1))
+            {
+                string Output = Burner.readAllStandardOutput();
+            }
+            else
+            {
+                qInfo("Err Burning");
+
+            }
+
+            break;
+        }
+        case AUDIOCD:
+        {
+            break;
+        }
+        default:
+        {
+            break;
+        }
+        }
 
     }
     else
     {
         return false;
+    }
+
+}
+
+int *BurnManager::GetWriterMaxIOSpeed()
+{
+    // Get All Additional info about detected writers
+    for(int i=0;i<this->CdWriters.size();i++)
+    {
+        QProcess WriterInfo;
+        QStringList ProgArgs;
+        ProgArgs<<this->CdWriters.at(i)->toStringDevKey();
+        ProgArgs<<"-prcap";
+        WriterInfo.start(this->CdRecordPath,ProgArgs);
+        if(WriterInfo.waitForStarted(-1))
+        {
+        }
+        else
+        {
+            qInfo("Cdrecord Failed to check writers");
+        }
+        if(WriterInfo.waitForFinished(-1))
+        {
+
+            string Output = WriterInfo.readAllStandardOutput().constData();
+            smatch WriterSpeedInfo;
+            sregex_token_iterator end;
+            regex SpeedMatch("(Write speed . [0-9]+: .*)(CD\\s*)([0-9]+)(.+DVD\\s*)([0-9]+)(.+BD\\s*)([0-9]+)");
+            for (std::sregex_token_iterator m(Output.cbegin(), Output.cend(), SpeedMatch);m != end;++m)
+            {
+                string g = *m;
+                regex_search(g,WriterSpeedInfo,SpeedMatch);
+                string tmpCd = WriterSpeedInfo[3];
+                string tmpDvd = WriterSpeedInfo[5];
+                this->CdWriters.at(i)->addCDSupportedSpeed(stoi(tmpCd));
+                this->CdWriters.at(i)->addDVDSupportedSpeed(stoi(tmpDvd));
+
+           }
+        }
+        else
+        {
+            return NULL;
+        }
+
     }
 
 }
@@ -242,3 +350,27 @@ QString WriterDevice::toStringDevKey()
     return dev;
 
 }
+
+vector<int> WriterDevice::getCDSupportedSpeeds() const
+{
+    return CDSupportedSpeeds;
+}
+
+vector<int> WriterDevice::getDVDSupportedSpeeds() const
+{
+    return DVDSupportedSpeeds;
+}
+
+void WriterDevice::addCDSupportedSpeed(int val)
+{
+    this->CDSupportedSpeeds.push_back(val);
+}
+
+void WriterDevice::addDVDSupportedSpeed(int val)
+{
+    this->DVDSupportedSpeeds.push_back(val);
+}
+
+
+
+

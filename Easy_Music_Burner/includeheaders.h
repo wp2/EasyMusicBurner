@@ -24,5 +24,22 @@
 #ifdef _WIN32
 #include <Windows.h>
 #endif
+// ENUM CODES HERE
+
+
+enum DiscTypeCode
+{
+    CDR = 1,
+    CDRW = 2,
+    DVDR = 3,
+    DVDRW = 4
+};
+
+enum BurnTypeCode
+{
+    MP3 = 100,
+    AUDIOCD
+};
+
 using namespace std;
 #endif // INCLUDEHEADERS_H

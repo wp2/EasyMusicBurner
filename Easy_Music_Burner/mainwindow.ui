@@ -34,7 +34,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Wybrane Pliki</string>
+     <string>Selected Files</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ADD">
@@ -47,7 +47,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Dodaj</string>
+     <string>Add</string>
     </property>
    </widget>
    <widget class="QPushButton" name="DEL">
@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Usuń</string>
+     <string>Delete</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Create_ISO">
@@ -73,7 +73,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Utwórz ISO</string>
+     <string>Create ISO</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="MemoryProgressBar">
@@ -102,7 +102,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Użycie Pamięci</string>
+     <string>Memory Usage</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -115,7 +115,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Typ Płyty</string>
+     <string>Disc Type</string>
     </property>
    </widget>
    <widget class="QComboBox" name="DiscType">
@@ -131,14 +131,14 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>240</x>
       <y>20</y>
-      <width>91</width>
+      <width>51</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Rodzaj Wypalania</string>
+     <string>Burn Mode</string>
     </property>
    </widget>
    <widget class="QComboBox" name="BurnMode">
@@ -151,9 +151,9 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="Burn">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -164,7 +164,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Wypal</string>
+     <string>Burn</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Music_UP">
@@ -244,7 +244,7 @@
    </property>
    <widget class="QMenu" name="menuPlik">
     <property name="title">
-     <string>Plik</string>
+     <string>File</string>
     </property>
     <addaction name="BurnISO"/>
     <addaction name="EraseDisc"/>
@@ -252,7 +252,7 @@
    </widget>
    <widget class="QMenu" name="menuPomoc">
     <property name="title">
-     <string>Pomoc</string>
+     <string>Help</string>
     </property>
     <addaction name="actionO_Programie"/>
    </widget>
@@ -261,25 +261,25 @@
   </widget>
   <action name="BurnISO">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>Wypal Plik ISO</string>
+    <string>Burn ISO File</string>
    </property>
   </action>
   <action name="EraseDisc">
    <property name="text">
-    <string>Kasuj Dysk</string>
+    <string>Erase Disc</string>
    </property>
   </action>
   <action name="Close">
    <property name="text">
-    <string>Zamknij</string>
+    <string>Close</string>
    </property>
   </action>
   <action name="actionO_Programie">
    <property name="text">
-    <string>O Programie</string>
+    <string>About Program</string>
    </property>
   </action>
  </widget>

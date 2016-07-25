@@ -94,6 +94,7 @@ void MainWindow::CalculateMemoryUsage()
 
 void MainWindow::Init()
 {
+
     connect(this->ui->BurnISO,SIGNAL(triggered(bool)),this,SLOT(OnSettings()));
     SetListView();
     SetDiscOptions();
@@ -103,6 +104,7 @@ void MainWindow::Init()
 
 void MainWindow::SetDiscOptions()
 {
+    //DiscTypeCode DiscCode;
     DiscOptions["CD-R (700 MB)"] = 700;
     DiscOptions["CD-RW (700 MB)"] = 700;
     DiscOptions["DVD-R (4.7 GB)"] = 4812;
@@ -114,8 +116,10 @@ void MainWindow::SetDiscOptions()
 
 void MainWindow::SetBurnModeOptions()
 {
-    BurnOptions["MP3"] = 1;
-    this->ui->BurnMode->insertItem(0,"MP3");
+    BurnOptions["MP3"] = MP3;
+    int A = MP3;
+    this->ui->BurnMode->insertItem(0,"MP3",A);
+
 }
 
 void MainWindow::SetInitMemoryBarState()
@@ -222,4 +226,12 @@ void MainWindow::DiscType_Changed()
 void MainWindow::on_EraseDisc_triggered()
 {
     EraseDiscDialog EraseDialog;
+}
+
+
+
+void MainWindow::on_Burn_clicked()
+{
+    //int tmp  = this->ui->BurnMode->currentData().toInt();
+    BurnMusicDirectDialog RecordMusicNormaly(this->ui->BurnMode->currentData().toInt());
 }

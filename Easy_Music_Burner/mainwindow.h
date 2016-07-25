@@ -6,6 +6,7 @@
 #include "burnisodialog.h"
 #include "burnmanager.h"
 #include "erasediscdialog.h"
+#include "burnmusicdirectdialog.h"
 namespace Ui {
 class MainWindow;
 }
@@ -35,7 +36,11 @@ private slots:
 
     void on_EraseDisc_triggered();
 
+
+    void on_Burn_clicked();
+
 private:
+    BurnTypeCode BurnNumericTypeCode;
     Ui::MainWindow *ui;
     MusicModel *MusicListModel;
     map<string,int> DiscOptions; // Temporary Solution thinking of better way to do this

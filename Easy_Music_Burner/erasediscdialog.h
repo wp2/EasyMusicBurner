@@ -1,7 +1,7 @@
 #ifndef ERASEDISCDIALOG_H
 #define ERASEDISCDIALOG_H
 
-#include <QDialog>
+//#include <QDialog>
 #include "includeheaders.h"
 #include "burnmanager.h"
 namespace Ui {
