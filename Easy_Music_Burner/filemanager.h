@@ -14,6 +14,7 @@ class FileManager
     string UserName;
     QFileInfo *GeneratedIso;
 public:
+    FileManager();
     FileManager(QString Output);
     FileManager(QString Output,vector<Music*>files);
 
@@ -30,6 +31,7 @@ public:
 
     QFileInfo* getGeneratedIso() const;
     void setGeneratedIso(QFileInfo *value);
+    QString getISOTargetDIR() const;
 };
 
 #endif // FILEMANAGER_H

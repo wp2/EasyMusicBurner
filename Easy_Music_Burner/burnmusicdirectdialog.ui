@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Burn Music Compilation</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="DriveLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -36,7 +36,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="FileSysLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -58,18 +58,8 @@
      <height>22</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Rock Rigde</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Joliet</string>
-    </property>
-   </item>
   </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="SpeeLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -156,7 +146,7 @@
     <string>Burn</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
+  <widget class="QPlainTextEdit" name="Log">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -166,7 +156,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="StatusLabel">
    <property name="geometry">
     <rect>
      <x>16</x>

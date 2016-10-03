@@ -6,18 +6,19 @@ BurnMusicDirectDialog::BurnMusicDirectDialog(QWidget *parent) :
     ui(new Ui::BurnMusicDirectDialog)
 {
     this->BurnMode = MP3; // As Default
-    this->RecordManager = new BurnManager();
+    this->RecordManager = new BurnManager();    
     ui->setupUi(this);
     this->Init();
     this->exec();
 }
 
-BurnMusicDirectDialog::BurnMusicDirectDialog(int BurnMode,QWidget *parent) :
+BurnMusicDirectDialog::BurnMusicDirectDialog(int BurnMode,FileManager MusicFiles,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::BurnMusicDirectDialog)
 {
     this->BurnMode = BurnMode; // As selected by User
     this->RecordManager = new BurnManager();
+    this->MusicFiles = MusicFiles;
     ui->setupUi(this);
     this->Init();
     this->exec();
@@ -28,20 +29,24 @@ BurnMusicDirectDialog::BurnMusicDirectDialog(int BurnMode,QWidget *parent) :
 BurnMusicDirectDialog::~BurnMusicDirectDialog()
 {
     delete ui;
+    //if(this->RecordManager)delete this->RecordManager;
 }
 
 void BurnMusicDirectDialog::Init()
 {
     this->InitWriterSelection();
     this->InitWriterRecordSpeed();
-
+    this->InitFileNameSysSelection();
 }
 
 void BurnMusicDirectDialog::on_BurnMusic_clicked()
 {
-   // this->RecordManager->ConstructBurnInfo(0,this->BurnMode,this->ui->BurnSpeed->currentData().toInt(),(WriterDevice*)this->ui->Drives->currentData().value<void*>(),false,false,
-    //                                       QFileInfo(this->ui->));
-   // this->RecordManager->Burn();
+    if(!this->CheckIfBurnOptionsAreValid())return;
+    BurnInfo BurnSettings;
+    BurnSettings.Destanation = (WriterDevice*)this->ui->Drives->currentData().value<void *>();
+    BurnSettings.Data = QFileInfo(this->MusicFiles.getISOTargetDIR());
+    BurnSettings.WriteSpeed = this->ui->BurnSpeed->currentData().toInt();
+    BurnSettings.FileSystemName = this->ui->FileNameSys->currentData().toInt();
 }
 /*
 void BurnMusicDirectDialog::on_MultiSession_clicked()
@@ -113,4 +118,12 @@ void BurnMusicDirectDialog::InitWriterRecordSpeed()
         this->ui->BurnSpeed->insertItem(0,QString::number(Drive->getCDSupportedSpeeds().at(j)).append("x"),Drive->getCDSupportedSpeeds().at(j));
     }
 
+}
+
+void BurnMusicDirectDialog::InitFileNameSysSelection()
+{
+    QString RockRigde = "Rock Rigde";
+    QString Joliet = "Joliet";
+    this->ui->FileNameSys->insertItem(0,RockRigde,0);
+    this->ui->FileNameSys->insertItem(0,Joliet,1);
 }

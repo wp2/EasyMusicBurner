@@ -30,13 +30,14 @@ private:
 
 struct BurnInfo
 {
-    int DiscType; // 0 - CD , 1 - CD-RW
+    int DiscType; // 0 - CD , 1 - DVD
     int BurnType; // 0- MP3 data , 1 - Audio CD
     int WriteSpeed; // 0 - AUTO , 1+ - Set by User
     WriterDevice *Destanation; // Writer Destanation
     bool Sao;
     bool Tao;
     QFileInfo Data;
+    int FileSystemName; // 0 - Joilet , 1 - RockRigde
 };
 
 class BurnManager
@@ -54,7 +55,8 @@ public:
     bool BlankDisc(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL); // By default use Binfo.Destanation
     bool IsErasable(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL);
     bool IsWriteable(WriterDevice *dev = NULL,QPlainTextEdit *LogOutput = NULL);    
-    void ConstructBurnInfo(int DiscType, int BurnType,int WriteSpeed,WriterDevice *Drive,bool SAO,bool TAO,QFileInfo Data);
+    bool IsPresent(WriterDevice *dev = NULL);
+    void ConstructBurnInfo(int DiscType, int BurnType,int WriteSpeed,WriterDevice *Drive,bool SAO,bool TAO,QFileInfo Data,int FileSystemName = 0); // 0- Joilet
     bool Burn();
 private:
     FileManager *FileCmd;

@@ -15,6 +15,16 @@ void FileManager::setGeneratedIso(QFileInfo *value)
     GeneratedIso = value;
 }
 
+QString FileManager::getISOTargetDIR() const
+{
+    return ISOTargetDIR;
+}
+
+FileManager::FileManager()
+{
+
+}
+
 FileManager::FileManager(QString Output)
 {
 #ifdef _WIN32
@@ -26,7 +36,11 @@ FileManager::FileManager(QString Output)
     string UserName(conv.begin(),conv.end()); // We now have username rest is easy
     this->UserName = UserName;
     QString isotgt = "C:\\Users\\";
-    isotgt.append(UserName.c_str()).append("\\Documents\\CD_Compilation.iso");
+    QString IsoRandName = "Cd_";
+    time_t Time = time(NULL);
+    localtime(&Time);
+    IsoRandName.append(QDateTime::currentDateTime().toString());
+    isotgt.append(UserName.c_str()).append("\\Documents\\CD_Compilation_").append(IsoRandName).append(".iso");
     this->ISOTargetDIR = isotgt;
     #endif
 
@@ -58,7 +72,11 @@ FileManager::FileManager(QString Output, vector<Music *> files)
     string UserName(conv.begin(),conv.end()); // We now have username rest is easy
     this->UserName = UserName;
     QString isotgt = "C:\\Users\\";
-    isotgt.append(UserName.c_str()).append("\\Documents\\CD_Compilation.iso");
+    QString IsoRandName = "Cd_";
+    time_t Time = time(NULL);
+    localtime(&Time);
+    IsoRandName.append(QDateTime::currentDateTime().toString());
+    isotgt.append(UserName.c_str()).append("\\Documents\\CD_Compilation_").append(IsoRandName).append(".iso");
     this->ISOTargetDIR = isotgt;
     #endif
 
@@ -132,8 +150,8 @@ bool FileManager::RunMKISOFSProgram(QStringList Args)
     #ifdef _WIN32
 
     QString ProgramPath = QCoreApplication::applicationDirPath().append("\\Tools\\mkisofs.exe");
-    QStringList Argss;
-    Argss<<"-o=C:\\Users\\Wojtek\\Desktop\\HELLO.iso"<<"C:\\Users\\Wojtek\\Desktop\\tst";
+    //QStringList Argss;
+    //Argss<<"-o=C:\\Users\\Wojtek\\Desktop\\HELLO.iso"<<"C:\\Users\\Wojtek\\Desktop\\tst";
 
 
     #endif

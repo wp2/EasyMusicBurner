@@ -15,7 +15,7 @@ class BurnMusicDirectDialog : public QDialog
 
 public:
     explicit BurnMusicDirectDialog(QWidget *parent = 0);
-    explicit BurnMusicDirectDialog(int BurnMode,QWidget *parent = 0);
+    explicit BurnMusicDirectDialog(int BurnMode,FileManager MusicFiles,QWidget *parent = 0);
 
     ~BurnMusicDirectDialog();
 
@@ -27,7 +27,7 @@ private slots:
     //void on_SingleSession_clicked();
 
 private:
-
+    FileManager MusicFiles;
     int BurnMode;
     BurnManager *RecordManager;
     void Init();
@@ -35,7 +35,7 @@ private:
     Ui::BurnMusicDirectDialog *ui;
     void InitWriterSelection();
     void InitWriterRecordSpeed();
-
+    void InitFileNameSysSelection();
 };
 
 #endif // BURNMUSICDIRECTDIALOG_H

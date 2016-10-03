@@ -233,5 +233,6 @@ void MainWindow::on_EraseDisc_triggered()
 void MainWindow::on_Burn_clicked()
 {
     //int tmp  = this->ui->BurnMode->currentData().toInt();
-    BurnMusicDirectDialog RecordMusicNormaly(this->ui->BurnMode->currentData().toInt());
+    FileManager MusicFiles("",this->MusicListModel->getMusic());
+    BurnMusicDirectDialog RecordMusicNormaly(this->ui->BurnMode->currentData().toInt(),MusicFiles);
 }

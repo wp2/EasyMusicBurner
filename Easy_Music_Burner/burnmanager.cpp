@@ -3,6 +3,7 @@
 BurnManager::BurnManager()
 {
     CdRecordPath = QCoreApplication::applicationDirPath().append("\\Tools\\cdrecord.exe");
+    this->BurnOptInfo=NULL;
 
 }
 
@@ -25,7 +26,7 @@ BurnManager::BurnManager(WriterDevice dev, BurnInfo Binfo, FileManager *FileCmd)
 
 BurnManager::~BurnManager()
 {
-    if(this->BurnOptInfo !=NULL)delete this->BurnOptInfo;
+    if(this->BurnOptInfo)delete this->BurnOptInfo;
 
 }
 
@@ -135,10 +136,10 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
 
     if(dev == NULL)
     {
-        if(&this->BurnOptInfo->Destanation == NULL || this->BurnOptInfo == NULL) return false; // If that happen something is really wrong !
-        dev = this->BurnOptInfo->Destanation; // Fallback to BurnInfo->Destanation
+        //if(&this->BurnOptInfo->Destanation == NULL || this->BurnOptInfo == NULL) return false; // If that happen something is really wrong !
+        //dev = this->BurnOptInfo->Destanation; // Fallback to BurnInfo->Destanation
     }
-
+    if(!this->IsPresent(dev)) return false;
 
     vector<WriterDevice*> Writers;
     QProcess *Cdrecord = new QProcess();
@@ -167,19 +168,6 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
             LogOutput->setPlainText("CHECKING DISC PLEASE WAIT...........");
             //LogOutput->appendPlainText(QString::fromStdString(ErrOutput));
 
-        }
-        smatch StandardOutputRes;
-        smatch ErrOutputRes;
-        regex Disk("(cdrecord: No disk)"); // This will check if CD is present
-        regex_search(Output,StandardOutputRes,Disk);
-        regex_search(ErrOutput,ErrOutputRes,Disk);
-        if(StandardOutputRes.size() == 1 || ErrOutputRes.size() == 1 )
-        {
-            if(LogOutput !=NULL)
-            {
-                LogOutput->appendPlainText("ERROR: No Disk in Selected Drive !");
-            }
-            return false;
         }
 
         smatch StandardOutputRes_Erase;
@@ -212,7 +200,53 @@ bool BurnManager::IsErasable(WriterDevice *dev,QPlainTextEdit *LogOutput)
 
 }
 
-void BurnManager::ConstructBurnInfo(int DiscType, int BurnType, int WriteSpeed, WriterDevice *Drive, bool SAO, bool TAO,QFileInfo Data)
+bool BurnManager::IsPresent(WriterDevice *dev)
+{
+    QProcess *Cdrecord =new QProcess();
+    QStringList ProgArgs;
+    ProgArgs<<"-prcap";
+    ProgArgs<<dev->toStringDevKey();
+    Cdrecord->start(this->CdRecordPath,ProgArgs);
+    if(Cdrecord->waitForStarted(-1))
+    {
+
+    }
+    else
+    {
+        //ERROR
+    }
+    if(Cdrecord->waitForFinished(-1))
+    {
+        string Output = Cdrecord->readAllStandardOutput().constData();
+        smatch CurrentMedia;
+
+        regex CurrentDisc("(Current:)(.+)");
+        regex_search(Output,CurrentMedia,CurrentDisc);
+        cout<<"[0] ="<<CurrentMedia[0]<<endl;
+        cout<<"[1] ="<<CurrentMedia[1]<<endl;
+        cout<<"[2] ="<<CurrentMedia[2]<<endl;
+        string Result = CurrentMedia[2];
+        if(Result.compare("none") == 0)
+        {
+            qInfo("NO DISC!");
+            return false;
+        }
+        else
+        {
+            qInfo("DISC PRESENT");
+            return true;
+        }
+
+    }
+    else
+    {
+
+    }
+    return false;
+
+}
+
+void BurnManager::ConstructBurnInfo(int DiscType, int BurnType, int WriteSpeed, WriterDevice *Drive, bool SAO, bool TAO,QFileInfo Data,int FileSystemName)
 {
     this->BurnOptInfo = new BurnInfo();
     this->BurnOptInfo->DiscType = DiscType;
@@ -302,6 +336,7 @@ int *BurnManager::GetWriterMaxIOSpeed()
                 regex_search(g,WriterSpeedInfo,SpeedMatch);
                 string tmpCd = WriterSpeedInfo[3];
                 string tmpDvd = WriterSpeedInfo[5];
+                if(tmpCd.compare("0") == 0 && tmpDvd.compare("0")== 0)continue;
                 this->CdWriters.at(i)->addCDSupportedSpeed(stoi(tmpCd));
                 this->CdWriters.at(i)->addDVDSupportedSpeed(stoi(tmpDvd));
 
